@@ -19,6 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import {
+	generateTextColorForRGBString,
+	getHexForColorName
+} from '../utils/color.js'
 import { translate as t } from '@nextcloud/l10n'
 import logger from '../utils/logger.js'
 
@@ -69,10 +73,13 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				},
 			}
 
-			// if (object.color) {
-			// fcEvent.backgroundColor = object.color
-			// fcEvent.textColor = generateTextColorForRGBString(object.color)
-			// }
+			if (calendarObject.color) {
+				const customColor = getHexForColorName(calendarObject.color)
+				if (customColor) {
+					fcEvent.backgroundColor = customColor
+					fcEvent.textColor = generateTextColorForRGBString(customColor)
+				}
+			}
 
 			fcEvents.push(fcEvent)
 		}
