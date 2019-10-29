@@ -43,18 +43,27 @@
 				:is-shared-with-me="calendar.isSharedWithMe"
 				:owner="calendar.owner" />
 		</div>
+
+		<div
+			v-if="showCustomColor"
+			class="property-select__info">
+			<div style="height: 20px;width:20px;border-radius: 3px" :style="{ 'background-color': selectedColor }" @click="openColorPicker" />
+			<ColorPicker :value="selectedColor" :open.sync="isColorPickerOpen" @input="changeCustomColor" />
+		</div>
 	</div>
 </template>
 
 <script>
 import CalendarPicker from '../../Shared/CalendarPicker'
 import CalendarPickerOption from '../../Shared/CalendarPickerOption.vue'
+import { ColorPicker } from '@nextcloud/vue/dist/Components/ColorPicker'
 
 export default {
 	name: 'PropertyCalendarPicker',
 	components: {
 		CalendarPickerOption,
 		CalendarPicker,
+		ColorPicker,
 	},
 	props: {
 		calendar: {
@@ -69,16 +78,53 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+		showCustomColor: {
+			type: Boolean,
+			default: false,
+		},
+		customColor: {
+			type: String,
+			default: null,
+		},
+	},
+	data() {
+		return {
+			isColorPickerOpen: false
+		}
 	},
 	computed: {
 		display() {
 			return this.calendar !== undefined
 		},
+		selectedColor() {
+			return this.customColor || this.calendar.color
+		},
 	},
 	methods: {
+		/**
+		 * Emits the select calendar event
+		 *
+		 * // TODO: this should emit the calendar id instead
+		 * @param {Object} value The calendar Object
+		 */
 		selectCalendar(value) {
 			this.$emit('selectCalendar', value)
 		},
+		/**
+		 * Emits the new custom color
+		 *
+		 * @param {String} value The new custom color
+		 */
+		changeCustomColor(value) {
+			this.$emit('changeCustomColor', value)
+		},
+		/**
+		 * Opens the color-picker to allow the user
+		 * to pick a custom colors
+		 */
+		openColorPicker() {
+			this.isColorPickerOpen = true
+		}
 	},
 }
 </script>

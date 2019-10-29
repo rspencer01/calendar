@@ -87,6 +87,8 @@
 					:calendars="calendars"
 					:calendar="selectedCalendar"
 					:is-read-only="isReadOnly"
+					:custom-color="color"
+					:show-custom-color="true"
 					@selectCalendar="changeCalendar" />
 
 				<PropertyText
@@ -281,6 +283,13 @@ export default {
 			}
 
 			return this.calendarObjectInstance.accessClass
+		},
+		color() {
+			if (!this.calendarObjectInstance) {
+				return null
+			}
+
+			return this.calendarObjectInstance.color
 		},
 		status() {
 			if (!this.calendarObjectInstance) {

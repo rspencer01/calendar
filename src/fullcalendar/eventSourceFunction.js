@@ -21,7 +21,7 @@
  */
 import {
 	generateTextColorForRGBString,
-	getHexForColorName
+	getHexForColorName,
 } from '../utils/color.js'
 import { translate as t } from '@nextcloud/l10n'
 import logger from '../utils/logger.js'
